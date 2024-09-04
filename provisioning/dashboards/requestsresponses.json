@@ -1,0 +1,400 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Link",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": false
+            },
+            "filterable": true,
+            "inspect": true,
+            "minWidth": 50
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "path"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 186
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "testcase"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 306
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "id"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 44
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "type"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 101
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "data"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 184
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "url"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 788
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Curl Request"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 472
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Response Data"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 433
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Path"
+          }
+        ]
+      },
+      "pluginVersion": "11.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "hide": false,
+          "queryText": "SELECT \r\n  requests.id as ID,\r\n  status as \"Status Code\",\r\n  path as Path,\r\n  type as Method,\r\n  url as URL,\r\n  body as Body,\r\n  responses.data as \"Response Data\",\r\n  requests.data as \"Curl Request\",\r\n  testcase as \"Crash File\",\r\n  requests.timestamp AS Timestamp,\r\n  inputid as \"Sequence Number\"\r\nFROM requests LEFT JOIN responses\r\nON requests.id = responses.reqid\r\nWHERE \r\n  runid==$runid AND\r\n  path IN (${endpoint:sqlstring}) AND\r\n  type IN (${method:sqlstring}) AND\r\n  status IN (${statuscode:sqlstring})\r\nLIMIT\r\n  $nrows",
+          "queryType": "table",
+          "rawQueryText": "SELECT \r\n  requests.id as ID,\r\n  status as \"Status Code\",\r\n  path as Path,\r\n  type as Method,\r\n  url as URL,\r\n  body as Body,\r\n  responses.data as \"Response Data\",\r\n  requests.data as \"Curl Request\",\r\n  testcase as \"Crash File\",\r\n  requests.timestamp AS Timestamp,\r\n  inputid as \"Sequence Number\"\r\nFROM requests LEFT JOIN responses\r\nON requests.id = responses.reqid\r\nWHERE \r\n  runid==$runid AND\r\n  path IN (${endpoint:sqlstring}) AND\r\n  type IN (${method:sqlstring}) AND\r\n  status IN (${statuscode:sqlstring})\r\nLIMIT\r\n  $nrows",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Requests made",
+      "type": "table"
+    }
+  ],
+  "revision": 1,
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "3",
+          "value": "3"
+        },
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT id FROM runs",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Run",
+        "multi": false,
+        "name": "runid",
+        "options": [],
+        "query": "SELECT id FROM runs",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "allValue": "",
+        "current": {
+          "selected": false,
+          "text": [
+            "/pet",
+            "/pet/findByStatus",
+            "/pet/findByTags",
+            "/pet/{petId}",
+            "/pet/{petId}/uploadImage",
+            "/store/inventory",
+            "/store/order",
+            "/store/order/{orderId}",
+            "/user",
+            "/user/createWithList",
+            "/user/login",
+            "/user/logout",
+            "/user/{username}"
+          ],
+          "value": [
+            "/pet",
+            "/pet/findByStatus",
+            "/pet/findByTags",
+            "/pet/{petId}",
+            "/pet/{petId}/uploadImage",
+            "/store/inventory",
+            "/store/order",
+            "/store/order/{orderId}",
+            "/user",
+            "/user/createWithList",
+            "/user/login",
+            "/user/logout",
+            "/user/{username}"
+          ]
+        },
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Endpoint",
+        "multi": true,
+        "name": "endpoint",
+        "options": [],
+        "query": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "POST",
+            "PUT",
+            "GET",
+            "DELETE"
+          ],
+          "value": [
+            "POST",
+            "PUT",
+            "GET",
+            "DELETE"
+          ]
+        },
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT type FROM requests",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Method",
+        "multi": true,
+        "name": "method",
+        "options": [],
+        "query": "SELECT type FROM requests",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "200"
+          ],
+          "value": [
+            "200"
+          ]
+        },
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT status FROM responses",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Status Code",
+        "multi": true,
+        "name": "statuscode",
+        "options": [],
+        "query": "SELECT status FROM responses",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 3,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "100",
+          "value": "100"
+        },
+        "hide": 0,
+        "label": "# of Rows",
+        "name": "nrows",
+        "options": [
+          {
+            "selected": true,
+            "text": "100",
+            "value": "100"
+          }
+        ],
+        "query": "100",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "2024-07-15T13:03:22.000Z",
+    "to": "2024-07-15T13:08:30.000Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Requests and Responses",
+  "uid": "fdspvzzugpbswe",
+  "version": 2,
+  "weekStart": ""
+}

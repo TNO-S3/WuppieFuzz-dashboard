@@ -1,0 +1,899 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Overview of all endpoints",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Link",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "Count",
+                  "401"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "displayLabels": [
+          "name"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Value",
+          "sortDesc": true,
+          "values": [
+            "percent"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "first"
+          ],
+          "fields": "/^Count$/",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "hide": false,
+          "queryText": "SELECT CAST(status as TEXT), COUNT(*) as 'Count'\r\nFROM responses LEFT JOIN requests ON responses.reqid = requests.id \r\nWHERE runid = $runid AND path IN (${endpoint:sqlstring})\r\nGROUP BY status",
+          "queryType": "table",
+          "rawQueryText": "SELECT CAST(status as TEXT), COUNT(*) as 'Count'\r\nFROM responses LEFT JOIN requests ON responses.reqid = requests.id \r\nWHERE runid = $runid AND path IN (${endpoint:sqlstring})\r\nGROUP BY status",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Status codes",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "4xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "5xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "other"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "5xx"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 20,
+        "x": 4,
+        "y": 0
+      },
+      "id": 4,
+      "interval": "1ms",
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.7,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        },
+        "xField": "metric",
+        "xTickLabelMaxLength": 20,
+        "xTickLabelRotation": -60,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "9.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "hide": false,
+          "queryText": "SELECT \n    path as metric,\n    count(1) filter(where status BETWEEN 400 AND 499) as \"4xx\",\n    count(1) filter(where status BETWEEN 500 AND 599) as \"5xx\",\n    count(1) filter(where status BETWEEN 200 AND 299) as \"2xx\",\n    count(1) filter(where status NOT BETWEEN 400 AND 599 AND status NOT BETWEEN 200 AND 299) as other\nFROM \n    requests LEFT JOIN responses ON responses.reqid = requests.id\nWHERE \n    runid = $runid AND\n    path IN (${endpoint:sqlstring})\nGROUP BY path",
+          "queryType": "table",
+          "rawQueryText": "SELECT \n    path as metric,\n    count(1) filter(where status BETWEEN 400 AND 499) as \"4xx\",\n    count(1) filter(where status BETWEEN 500 AND 599) as \"5xx\",\n    count(1) filter(where status BETWEEN 200 AND 299) as \"2xx\",\n    count(1) filter(where status NOT BETWEEN 400 AND 599 AND status NOT BETWEEN 200 AND 299) as other\nFROM \n    requests LEFT JOIN responses ON responses.reqid = requests.id\nWHERE \n    runid = $runid AND\n    path IN (${endpoint:sqlstring})\nGROUP BY path",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Number of requests per path",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:mm:ss.SSSSSSSSS",
+                "destinationType": "time",
+                "targetField": "timestamp"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 100
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Endpoint Coverage (%)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Line Coverage (%)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.4.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) as time,\n  100.0 * endpoint_coverage / endpoint_coverage_total AS \"Endpoint Coverage (%)\",\n  100.0 * line_coverage / line_coverage_total AS \"Line Coverage (%)\"\nFROM\n  coverage\nWHERE\n  runid = \"$runid\"\n",
+          "queryType": "table",
+          "rawQueryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) as time,\n  100.0 * endpoint_coverage / endpoint_coverage_total AS \"Endpoint Coverage (%)\",\n  100.0 * line_coverage / line_coverage_total AS \"Line Coverage (%)\"\nFROM\n  coverage\nWHERE\n  runid = \"$runid\"\n",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Coverage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "4.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "2.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "5.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "500"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "id": 8,
+      "interval": "1ms",
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.7,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        },
+        "xField": "path\\status",
+        "xTickLabelMaxLength": 20,
+        "xTickLabelRotation": -60,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "9.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "hide": false,
+          "queryText": "SELECT \n    path as path,\n    CAST(status AS TEXT) as status,\n    count(1) as count\nFROM \n    requests LEFT JOIN responses ON responses.reqid = requests.id\nWHERE \n    runid = $runid AND\n    path IN (${endpoint:sqlstring})\nGROUP BY path, status",
+          "queryType": "table",
+          "rawQueryText": "SELECT \n    path as path,\n    CAST(status AS TEXT) as status,\n    count(1) as count\nFROM \n    requests LEFT JOIN responses ON responses.reqid = requests.id\nWHERE \n    runid = $runid AND\n    path IN (${endpoint:sqlstring})\nGROUP BY path, status",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "All Status Codes",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:mm:ss.SSSSSSSSS",
+                "destinationType": "time",
+                "targetField": "timestamp"
+              },
+              {}
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "groupingToMatrix",
+          "options": {
+            "columnField": "status",
+            "rowField": "path",
+            "valueField": "count"
+          }
+        }
+      ],
+      "type": "barchart"
+    }
+  ],
+  "refresh": "",
+  "revision": 1,
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "3",
+          "value": "3"
+        },
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT id FROM runs",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Run",
+        "multi": false,
+        "name": "runid",
+        "options": [],
+        "query": "SELECT id FROM runs",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "allValue": "",
+        "current": {
+          "selected": true,
+          "text": [
+            "/account",
+            "/account/email",
+            "/account/jwt",
+            "/account/logs",
+            "/account/name",
+            "/account/password",
+            "/account/prefs",
+            "/account/recovery",
+            "/account/sessions",
+            "/account/sessions/anonymous",
+            "/account/sessions/oauth2/{provider}",
+            "/account/sessions/{sessionId}",
+            "/account/verification",
+            "/avatars/browsers/{code}",
+            "/avatars/credit-cards/{code}",
+            "/avatars/favicon",
+            "/avatars/flags/{code}",
+            "/avatars/image",
+            "/avatars/initials",
+            "/avatars/qr",
+            "/database/collections",
+            "/database/collections/{collectionId}",
+            "/database/collections/{collectionId}/documents",
+            "/database/collections/{collectionId}/documents/{documentId}",
+            "/functions",
+            "/functions/{functionId}",
+            "/functions/{functionId}/executions",
+            "/functions/{functionId}/executions/{executionId}",
+            "/functions/{functionId}/tag",
+            "/functions/{functionId}/tags",
+            "/functions/{functionId}/tags/{tagId}",
+            "/functions/{functionId}/usage",
+            "/health",
+            "/health/anti-virus",
+            "/health/cache",
+            "/health/db",
+            "/health/queue/certificates",
+            "/health/queue/functions",
+            "/health/queue/logs",
+            "/health/queue/tasks",
+            "/health/queue/usage",
+            "/health/queue/webhooks",
+            "/health/storage/local",
+            "/health/time",
+            "/locale",
+            "/locale/continents",
+            "/locale/countries",
+            "/locale/countries/eu",
+            "/locale/countries/phones",
+            "/locale/currencies",
+            "/locale/languages",
+            "/projects",
+            "/projects/{projectId}",
+            "/projects/{projectId}/auth/limit",
+            "/projects/{projectId}/auth/{method}",
+            "/projects/{projectId}/domains",
+            "/projects/{projectId}/domains/{domainId}",
+            "/projects/{projectId}/domains/{domainId}/verification",
+            "/projects/{projectId}/keys",
+            "/projects/{projectId}/keys/{keyId}",
+            "/projects/{projectId}/oauth2",
+            "/projects/{projectId}/platforms",
+            "/projects/{projectId}/platforms/{platformId}",
+            "/projects/{projectId}/tasks",
+            "/projects/{projectId}/tasks/{taskId}",
+            "/projects/{projectId}/usage",
+            "/projects/{projectId}/webhooks",
+            "/projects/{projectId}/webhooks/{webhookId}",
+            "/storage/files",
+            "/storage/files/{fileId}",
+            "/storage/files/{fileId}/download",
+            "/storage/files/{fileId}/preview",
+            "/storage/files/{fileId}/view",
+            "/teams",
+            "/teams/{teamId}",
+            "/teams/{teamId}/memberships",
+            "/teams/{teamId}/memberships/{membershipId}",
+            "/teams/{teamId}/memberships/{membershipId}/status",
+            "/users",
+            "/users/{userId}",
+            "/users/{userId}/logs",
+            "/users/{userId}/prefs",
+            "/users/{userId}/sessions",
+            "/users/{userId}/sessions/{sessionId}",
+            "/users/{userId}/status",
+            "/users/{userId}/verification"
+          ],
+          "value": [
+            "/account",
+            "/account/email",
+            "/account/jwt",
+            "/account/logs",
+            "/account/name",
+            "/account/password",
+            "/account/prefs",
+            "/account/recovery",
+            "/account/sessions",
+            "/account/sessions/anonymous",
+            "/account/sessions/oauth2/{provider}",
+            "/account/sessions/{sessionId}",
+            "/account/verification",
+            "/avatars/browsers/{code}",
+            "/avatars/credit-cards/{code}",
+            "/avatars/favicon",
+            "/avatars/flags/{code}",
+            "/avatars/image",
+            "/avatars/initials",
+            "/avatars/qr",
+            "/database/collections",
+            "/database/collections/{collectionId}",
+            "/database/collections/{collectionId}/documents",
+            "/database/collections/{collectionId}/documents/{documentId}",
+            "/functions",
+            "/functions/{functionId}",
+            "/functions/{functionId}/executions",
+            "/functions/{functionId}/executions/{executionId}",
+            "/functions/{functionId}/tag",
+            "/functions/{functionId}/tags",
+            "/functions/{functionId}/tags/{tagId}",
+            "/functions/{functionId}/usage",
+            "/health",
+            "/health/anti-virus",
+            "/health/cache",
+            "/health/db",
+            "/health/queue/certificates",
+            "/health/queue/functions",
+            "/health/queue/logs",
+            "/health/queue/tasks",
+            "/health/queue/usage",
+            "/health/queue/webhooks",
+            "/health/storage/local",
+            "/health/time",
+            "/locale",
+            "/locale/continents",
+            "/locale/countries",
+            "/locale/countries/eu",
+            "/locale/countries/phones",
+            "/locale/currencies",
+            "/locale/languages",
+            "/projects",
+            "/projects/{projectId}",
+            "/projects/{projectId}/auth/limit",
+            "/projects/{projectId}/auth/{method}",
+            "/projects/{projectId}/domains",
+            "/projects/{projectId}/domains/{domainId}",
+            "/projects/{projectId}/domains/{domainId}/verification",
+            "/projects/{projectId}/keys",
+            "/projects/{projectId}/keys/{keyId}",
+            "/projects/{projectId}/oauth2",
+            "/projects/{projectId}/platforms",
+            "/projects/{projectId}/platforms/{platformId}",
+            "/projects/{projectId}/tasks",
+            "/projects/{projectId}/tasks/{taskId}",
+            "/projects/{projectId}/usage",
+            "/projects/{projectId}/webhooks",
+            "/projects/{projectId}/webhooks/{webhookId}",
+            "/storage/files",
+            "/storage/files/{fileId}",
+            "/storage/files/{fileId}/download",
+            "/storage/files/{fileId}/preview",
+            "/storage/files/{fileId}/view",
+            "/teams",
+            "/teams/{teamId}",
+            "/teams/{teamId}/memberships",
+            "/teams/{teamId}/memberships/{membershipId}",
+            "/teams/{teamId}/memberships/{membershipId}/status",
+            "/users",
+            "/users/{userId}",
+            "/users/{userId}/logs",
+            "/users/{userId}/prefs",
+            "/users/{userId}/sessions",
+            "/users/{userId}/sessions/{sessionId}",
+            "/users/{userId}/status",
+            "/users/{userId}/verification"
+          ]
+        },
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Endpoint",
+        "multi": true,
+        "name": "endpoint",
+        "options": [],
+        "query": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2024-08-05T09:33:58.000Z",
+    "to": "2024-08-05T10:36:05.000Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Home",
+  "uid": "zrrk-Ra4z",
+  "version": 1,
+  "weekStart": ""
+}
