@@ -24,7 +24,7 @@ pub async fn start_container<'a>(
     }
 
     if is_container_running(docker, container_name).await {
-        println!("Grafana container is already running.");
+        println!("WuppieFuzz dashboard is already running.");
         return;
     }
 
