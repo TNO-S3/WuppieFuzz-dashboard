@@ -60,7 +60,7 @@
 
     <Product
         Id='*'
-        Name='binary_wuppiefuzz_dashboard'
+        Name='wuppiefuzz-dashboard'
         UpgradeCode='743BA79B-FDB1-44CB-AF2A-760FE3925647'
         Manufacturer='TNO Software and System Security'
         Language='1033'
@@ -82,11 +82,11 @@
             DowngradeErrorMessage='A newer version of [ProductName] is already installed. Setup will now exit.'/>
 
         <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
-        <Property Id='DiskPrompt' Value='binary_wuppiefuzz_dashboard Installation'/>
+        <Property Id='DiskPrompt' Value='wuppiefuzz-dashboard Installation'/>
 
         <Directory Id='TARGETDIR' Name='SourceDir'>
             <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
-                <Directory Id='APPLICATIONFOLDER' Name='binary_wuppiefuzz_dashboard'>
+                <Directory Id='APPLICATIONFOLDER' Name='wuppiefuzz-dashboard'>
                     
                     <!--
                       Enabling the license sidecar file in the installer is a four step process:
@@ -122,9 +122,9 @@
                         <Component Id='binary0' Guid='*'>
                             <File
                                 Id='exe0'
-                                Name='binary_wuppiefuzz_dashboard.exe'
+                                Name='wuppiefuzz-dashboard.exe'
                                 DiskId='1'
-                                Source='$(var.CargoTargetBinDir)\binary_wuppiefuzz_dashboard.exe'
+                                Source='$(var.CargoTargetBinDir)\wuppiefuzz-dashboard.exe'
                                 KeyPath='yes'/>
                         </Component>
                     </Directory>
