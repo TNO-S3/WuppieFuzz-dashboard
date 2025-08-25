@@ -7,7 +7,7 @@ use std::time::Duration;
 use crate::embed_files;
 
 pub fn connect_docker() -> Docker {
-    return Docker::connect_with_defaults().expect("Failed to connect to Docker");
+    return Docker::connect_with_defaults().expect("[-] Failed to connect to Docker");
 }
 
 /// Start the Grafana container
@@ -19,18 +19,18 @@ pub async fn start_container<'a>(
     embedded_file: &str,
 ) {
     if !report_db_path.exists() {
-        eprintln!("Error: The specified report.db path does not exist.");
+        eprintln!("[*] Error: The specified report.db path does not exist.");
         std::process::exit(1);
     }
 
     if is_container_running(docker, container_name).await {
-        println!("WuppieFuzz dashboard is already running.");
+        println!("[*] Dashboard is already running.");
         return;
     }
 
     // Remove a container if it is dead
     if is_container_dead(docker, container_name).await {
-        println!("Grafana container is dead.");
+        println!("[*] Grafana container is dead.");
 
         let container_id = get_dead_container_id(docker, container_name).await.unwrap();
 
@@ -81,7 +81,7 @@ pub async fn start_container<'a>(
     let container_id = match container_id_result {
         Ok(result) => result.id,
         Err(e) => {
-            println!("Error: {:?}\n\tIs the Docker engine not running?", e);
+            println!("[-] Error: {:?}\n\tIs the Docker engine not running?", e);
             panic!("")
         }
     };
@@ -89,22 +89,22 @@ pub async fn start_container<'a>(
     // Start the container
     docker.start_container(&container_id).await.unwrap();
 
-    println!("Grafana container started successfully.");
+    println!("[*] Grafana container started successfully. It can be accessed at http://localhost:3000");
 }
 
 pub async fn remove_container(docker: &Docker, container_id: String) {
-    println!("Removing Grafana container...");
+    println!("[*] Removing Grafana container...");
     docker
         .remove_container(&container_id, None, None, None)
         .await
         .unwrap();
-    println!("Grafana container removed.");
+    println!("[*] Grafana container removed.");
 }
 
 // Stop and remove the Grafana container
 pub async fn stop_and_remove_container(docker: &Docker, container_name: &str) {
     if let Some(container_id) = get_running_container_id(docker, container_name).await {
-        println!("Stopping Grafana container...");
+        println!("[*] Stopping Grafana container...");
         docker
             .stop_container(&container_id, Duration::new(5, 0))
             .await
@@ -112,7 +112,7 @@ pub async fn stop_and_remove_container(docker: &Docker, container_name: &str) {
 
         remove_container(docker, container_id).await;
     } else {
-        println!("Grafana container is not running.");
+        println!("[-] Grafana container is not running.");
     }
 }
 

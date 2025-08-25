@@ -14,7 +14,7 @@ license = false
 eula = false
 
 [dependencies]
-clap = "4.5.28"
+clap = { version = "4.5.28", features = ["cargo", "derive", "env"] }
 dockworker = "0.6.0"
 include_dir = "0.7.4"
 tokio = "1.43.0"
