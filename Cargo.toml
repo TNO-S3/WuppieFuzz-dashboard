@@ -1,0 +1,25 @@
+[package]
+name = "binary_wuppiefuzz_dashboard"
+version = "0.1.0"
+authors = [
+    "TNO Software and System Security"
+]
+edition = "2021"
+repository = "https://github.com/TNO-S3/WuppieFuzz-dashboard"
+
+[package.metadata.wix]
+upgrade-guid = "743BA79B-FDB1-44CB-AF2A-760FE3925647"
+path-guid = "41B4ECDA-E575-481C-856B-085EBB38EBB3"
+license = false
+eula = false
+
+[dependencies]
+clap = { version = "4.5.28", features = ["cargo", "derive", "env"] }
+dockworker = "0.6.0"
+include_dir = "0.7.4"
+tokio = "1.43.0"
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
