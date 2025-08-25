@@ -1,5 +1,5 @@
 [package]
-name = "binary_wuppiefuzz_dashboard"
+name = "wuppiefuzz_dashboard"
 version = "0.1.0"
 authors = [
     "TNO Software and System Security"
