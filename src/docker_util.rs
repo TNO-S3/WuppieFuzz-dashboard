@@ -1,10 +1,11 @@
+use crate::embed_files;
 use dockworker::container::ContainerFilters;
 use dockworker::{ContainerCreateOptions, ContainerHostConfig, Docker, PortBindings};
+use futures_util::StreamExt;
 use include_dir::Dir;
+use std::future;
 use std::path::Path;
 use std::time::Duration;
-
-use crate::embed_files;
 
 pub fn connect_docker() -> Docker {
     return Docker::connect_with_defaults().expect("[-] Failed to connect to Docker");
@@ -67,6 +68,29 @@ pub async fn start_container<'a>(
     ];
     host_config.binds(binds);
 
+    // Pull the image
+    println!("[*] Pulling grafana image ...");
+    match docker
+        .create_image("grafana/grafana-enterprise", "latest")
+        .await
+    {
+        Err(error) => {
+            println!("[-] Error: {:?}\n\tPulling the grafana image failed", error);
+            panic!("")
+        }
+        Ok(result) => {
+            result
+                .for_each(|item| {
+                    if let Err(error) = item {
+                        println!("[-] Error: {:?}\n\tPulling the grafana image failed", error);
+                        panic!("")
+                    }
+                    future::ready(())
+                })
+                .await
+        }
+    }
+
     // Create the container
     let mut create_options = ContainerCreateOptions::new("grafana/grafana-enterprise:latest");
     create_options
@@ -89,7 +113,9 @@ pub async fn start_container<'a>(
     // Start the container
     docker.start_container(&container_id).await.unwrap();
 
-    println!("[*] Grafana container started successfully. It can be accessed at http://localhost:3000");
+    println!(
+        "[*] Grafana container started successfully. It can be accessed at http://localhost:3000"
+    );
 }
 
 pub async fn remove_container(docker: &Docker, container_id: String) {
