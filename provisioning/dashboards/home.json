@@ -217,7 +217,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "semi-dark-purple",
+                  "fixedColor": "blue",
                   "mode": "fixed"
                 }
               }
@@ -247,32 +247,23 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "semi-dark-blue",
+                  "fixedColor": "purple",
                   "mode": "fixed"
                 }
               }
             ]
           },
           {
-            "__systemRef": "hideSeriesFrom",
             "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "5xx"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
+              "id": "byName",
+              "options": "2xx"
             },
             "properties": [
               {
-                "id": "custom.hideFrom",
+                "id": "color",
                 "value": {
-                  "legend": false,
-                  "tooltip": true,
-                  "viz": true
+                  "fixedColor": "green",
+                  "mode": "fixed"
                 }
               }
             ]
@@ -319,7 +310,7 @@
             "uid": "P59B5E0575BD8E253"
           },
           "hide": false,
-          "queryText": "SELECT \n    path as metric,\n    count(1) filter(where status BETWEEN 400 AND 499) as \"4xx\",\n    count(1) filter(where status BETWEEN 500 AND 599) as \"5xx\",\n    count(1) filter(where status BETWEEN 200 AND 299) as \"2xx\",\n    count(1) filter(where status NOT BETWEEN 400 AND 599 AND status NOT BETWEEN 200 AND 299) as other\nFROM \n    requests LEFT JOIN responses ON responses.reqid = requests.id\nWHERE \n    runid = $runid AND\n    path IN (${endpoint:sqlstring})\nGROUP BY path",
+          "queryText": "SELECT \n    path as metric,\n    count(1) filter(where status BETWEEN 400 AND 499) as \"4xx\",\n    count(1) filter(where status BETWEEN 500 AND 599) as \"5xx\",\n    count(1) filter(where status BETWEEN 200 AND 299) as \"2xx\",\n    count(1) filter(where status NOT BETWEEN 400 AND 599 AND status NOT BETWEEN 200 AND 299) as other\nFROM \n    requests LEFT JOIN responses ON responses.reqid = requests.id\nWHERE \n    runid = 1 AND\n    path IN ('/pet','/pet/findByStatus','/pet/findByTags','/pet/{petId}','/pet/{petId}/uploadImage','/store/inventory','/store/order','/store/order/{orderId}','/user','/user/createWithArray','/user/createWithList','/user/login','/user/logout','/user/{username}')\nGROUP BY path",
           "queryType": "table",
           "rawQueryText": "SELECT \n    path as metric,\n    count(1) filter(where status BETWEEN 400 AND 499) as \"4xx\",\n    count(1) filter(where status BETWEEN 500 AND 599) as \"5xx\",\n    count(1) filter(where status BETWEEN 200 AND 299) as \"2xx\",\n    count(1) filter(where status NOT BETWEEN 400 AND 599 AND status NOT BETWEEN 200 AND 299) as other\nFROM \n    requests LEFT JOIN responses ON responses.reqid = requests.id\nWHERE \n    runid = $runid AND\n    path IN (${endpoint:sqlstring})\nGROUP BY path",
           "refId": "A",
