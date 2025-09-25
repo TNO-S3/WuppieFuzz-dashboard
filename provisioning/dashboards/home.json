@@ -25,7 +25,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 1,
   "links": [
     {
       "asDropdown": false,
@@ -40,7 +40,6 @@
       "url": ""
     }
   ],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -63,26 +62,46 @@
         },
         "overrides": [
           {
-            "__systemRef": "hideSeriesFrom",
             "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "Count",
-                  "401"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
+              "id": "byRegexp",
+              "options": "4.*"
             },
             "properties": [
               {
-                "id": "custom.hideFrom",
+                "id": "color",
                 "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
+                  "fixedColor": "blue",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "2.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "5.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "shades"
                 }
               }
             ]
@@ -103,7 +122,7 @@
         "legend": {
           "displayMode": "table",
           "placement": "right",
-          "showLegend": true,
+          "showLegend": false,
           "sortBy": "Value",
           "sortDesc": true,
           "values": [
@@ -115,15 +134,17 @@
           "calcs": [
             "first"
           ],
-          "fields": "/^Count$/",
-          "values": true
+          "fields": "/.*/",
+          "values": false
         },
+        "sort": "desc",
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -131,9 +152,9 @@
             "uid": "P59B5E0575BD8E253"
           },
           "hide": false,
-          "queryText": "SELECT CAST(status as TEXT), COUNT(*) as 'Count'\r\nFROM responses LEFT JOIN requests ON responses.reqid = requests.id \r\nWHERE runid = $runid AND path IN (${endpoint:sqlstring})\r\nGROUP BY status",
+          "queryText": "SELECT\r\n  -- 1xx Informational\r\n  SUM(CASE WHEN status = '100' THEN 1 ELSE 0 END) AS \"100\",\r\n  SUM(CASE WHEN status = '101' THEN 1 ELSE 0 END) AS \"101\",\r\n  SUM(CASE WHEN status = '102' THEN 1 ELSE 0 END) AS \"102\",\r\n\r\n  -- 2xx Success\r\n  SUM(CASE WHEN status = '200' THEN 1 ELSE 0 END) AS \"200\",\r\n  SUM(CASE WHEN status = '201' THEN 1 ELSE 0 END) AS \"201\",\r\n  SUM(CASE WHEN status = '202' THEN 1 ELSE 0 END) AS \"202\",\r\n  SUM(CASE WHEN status = '203' THEN 1 ELSE 0 END) AS \"203\",\r\n  SUM(CASE WHEN status = '204' THEN 1 ELSE 0 END) AS \"204\",\r\n  SUM(CASE WHEN status = '205' THEN 1 ELSE 0 END) AS \"205\",\r\n  SUM(CASE WHEN status = '206' THEN 1 ELSE 0 END) AS \"206\",\r\n\r\n  -- 3xx Redirection\r\n  SUM(CASE WHEN status = '300' THEN 1 ELSE 0 END) AS \"300\",\r\n  SUM(CASE WHEN status = '301' THEN 1 ELSE 0 END) AS \"301\",\r\n  SUM(CASE WHEN status = '302' THEN 1 ELSE 0 END) AS \"302\",\r\n  SUM(CASE WHEN status = '303' THEN 1 ELSE 0 END) AS \"303\",\r\n  SUM(CASE WHEN status = '304' THEN 1 ELSE 0 END) AS \"304\",\r\n  SUM(CASE WHEN status = '305' THEN 1 ELSE 0 END) AS \"305\",\r\n  SUM(CASE WHEN status = '307' THEN 1 ELSE 0 END) AS \"307\",\r\n  SUM(CASE WHEN status = '308' THEN 1 ELSE 0 END) AS \"308\",\r\n\r\n  -- 4xx Client Errors\r\n  SUM(CASE WHEN status = '400' THEN 1 ELSE 0 END) AS \"400\",\r\n  SUM(CASE WHEN status = '401' THEN 1 ELSE 0 END) AS \"401\",\r\n  SUM(CASE WHEN status = '402' THEN 1 ELSE 0 END) AS \"402\",\r\n  SUM(CASE WHEN status = '403' THEN 1 ELSE 0 END) AS \"403\",\r\n  SUM(CASE WHEN status = '404' THEN 1 ELSE 0 END) AS \"404\",\r\n  SUM(CASE WHEN status = '405' THEN 1 ELSE 0 END) AS \"405\",\r\n  SUM(CASE WHEN status = '406' THEN 1 ELSE 0 END) AS \"406\",\r\n  SUM(CASE WHEN status = '407' THEN 1 ELSE 0 END) AS \"407\",\r\n  SUM(CASE WHEN status = '408' THEN 1 ELSE 0 END) AS \"408\",\r\n  SUM(CASE WHEN status = '409' THEN 1 ELSE 0 END) AS \"409\",\r\n  SUM(CASE WHEN status = '410' THEN 1 ELSE 0 END) AS \"410\",\r\n  SUM(CASE WHEN status = '411' THEN 1 ELSE 0 END) AS \"411\",\r\n  SUM(CASE WHEN status = '412' THEN 1 ELSE 0 END) AS \"412\",\r\n  SUM(CASE WHEN status = '413' THEN 1 ELSE 0 END) AS \"413\",\r\n  SUM(CASE WHEN status = '414' THEN 1 ELSE 0 END) AS \"414\",\r\n  SUM(CASE WHEN status = '415' THEN 1 ELSE 0 END) AS \"415\",\r\n  SUM(CASE WHEN status = '416' THEN 1 ELSE 0 END) AS \"416\",\r\n  SUM(CASE WHEN status = '417' THEN 1 ELSE 0 END) AS \"417\",\r\n  SUM(CASE WHEN status = '418' THEN 1 ELSE 0 END) AS \"418\",\r\n  SUM(CASE WHEN status = '422' THEN 1 ELSE 0 END) AS \"422\",\r\n  SUM(CASE WHEN status = '426' THEN 1 ELSE 0 END) AS \"426\",\r\n  SUM(CASE WHEN status = '429' THEN 1 ELSE 0 END) AS \"429\",\r\n  SUM(CASE WHEN status = '431' THEN 1 ELSE 0 END) AS \"431\",\r\n\r\n  -- 5xx Server Errors\r\n  SUM(CASE WHEN status = '500' THEN 1 ELSE 0 END) AS \"500\",\r\n  SUM(CASE WHEN status = '501' THEN 1 ELSE 0 END) AS \"501\",\r\n  SUM(CASE WHEN status = '502' THEN 1 ELSE 0 END) AS \"502\",\r\n  SUM(CASE WHEN status = '503' THEN 1 ELSE 0 END) AS \"503\",\r\n  SUM(CASE WHEN status = '504' THEN 1 ELSE 0 END) AS \"504\",\r\n  SUM(CASE WHEN status = '505' THEN 1 ELSE 0 END) AS \"505\",\r\n  SUM(CASE WHEN status = '507' THEN 1 ELSE 0 END) AS \"507\",\r\n  SUM(CASE WHEN status = '508' THEN 1 ELSE 0 END) AS \"508\",\r\n  SUM(CASE WHEN status = '510' THEN 1 ELSE 0 END) AS \"510\",\r\n  SUM(CASE WHEN status = '511' THEN 1 ELSE 0 END) AS \"511\"\r\n\r\nFROM responses\r\nLEFT JOIN requests ON responses.reqid = requests.id \r\n",
           "queryType": "table",
-          "rawQueryText": "SELECT CAST(status as TEXT), COUNT(*) as 'Count'\r\nFROM responses LEFT JOIN requests ON responses.reqid = requests.id \r\nWHERE runid = $runid AND path IN (${endpoint:sqlstring})\r\nGROUP BY status",
+          "rawQueryText": "SELECT\r\n  -- 1xx Informational\r\n  SUM(CASE WHEN status = '100' THEN 1 ELSE 0 END) AS \"100\",\r\n  SUM(CASE WHEN status = '101' THEN 1 ELSE 0 END) AS \"101\",\r\n  SUM(CASE WHEN status = '102' THEN 1 ELSE 0 END) AS \"102\",\r\n\r\n  -- 2xx Success\r\n  SUM(CASE WHEN status = '200' THEN 1 ELSE 0 END) AS \"200\",\r\n  SUM(CASE WHEN status = '201' THEN 1 ELSE 0 END) AS \"201\",\r\n  SUM(CASE WHEN status = '202' THEN 1 ELSE 0 END) AS \"202\",\r\n  SUM(CASE WHEN status = '203' THEN 1 ELSE 0 END) AS \"203\",\r\n  SUM(CASE WHEN status = '204' THEN 1 ELSE 0 END) AS \"204\",\r\n  SUM(CASE WHEN status = '205' THEN 1 ELSE 0 END) AS \"205\",\r\n  SUM(CASE WHEN status = '206' THEN 1 ELSE 0 END) AS \"206\",\r\n\r\n  -- 3xx Redirection\r\n  SUM(CASE WHEN status = '300' THEN 1 ELSE 0 END) AS \"300\",\r\n  SUM(CASE WHEN status = '301' THEN 1 ELSE 0 END) AS \"301\",\r\n  SUM(CASE WHEN status = '302' THEN 1 ELSE 0 END) AS \"302\",\r\n  SUM(CASE WHEN status = '303' THEN 1 ELSE 0 END) AS \"303\",\r\n  SUM(CASE WHEN status = '304' THEN 1 ELSE 0 END) AS \"304\",\r\n  SUM(CASE WHEN status = '305' THEN 1 ELSE 0 END) AS \"305\",\r\n  SUM(CASE WHEN status = '307' THEN 1 ELSE 0 END) AS \"307\",\r\n  SUM(CASE WHEN status = '308' THEN 1 ELSE 0 END) AS \"308\",\r\n\r\n  -- 4xx Client Errors\r\n  SUM(CASE WHEN status = '400' THEN 1 ELSE 0 END) AS \"400\",\r\n  SUM(CASE WHEN status = '401' THEN 1 ELSE 0 END) AS \"401\",\r\n  SUM(CASE WHEN status = '402' THEN 1 ELSE 0 END) AS \"402\",\r\n  SUM(CASE WHEN status = '403' THEN 1 ELSE 0 END) AS \"403\",\r\n  SUM(CASE WHEN status = '404' THEN 1 ELSE 0 END) AS \"404\",\r\n  SUM(CASE WHEN status = '405' THEN 1 ELSE 0 END) AS \"405\",\r\n  SUM(CASE WHEN status = '406' THEN 1 ELSE 0 END) AS \"406\",\r\n  SUM(CASE WHEN status = '407' THEN 1 ELSE 0 END) AS \"407\",\r\n  SUM(CASE WHEN status = '408' THEN 1 ELSE 0 END) AS \"408\",\r\n  SUM(CASE WHEN status = '409' THEN 1 ELSE 0 END) AS \"409\",\r\n  SUM(CASE WHEN status = '410' THEN 1 ELSE 0 END) AS \"410\",\r\n  SUM(CASE WHEN status = '411' THEN 1 ELSE 0 END) AS \"411\",\r\n  SUM(CASE WHEN status = '412' THEN 1 ELSE 0 END) AS \"412\",\r\n  SUM(CASE WHEN status = '413' THEN 1 ELSE 0 END) AS \"413\",\r\n  SUM(CASE WHEN status = '414' THEN 1 ELSE 0 END) AS \"414\",\r\n  SUM(CASE WHEN status = '415' THEN 1 ELSE 0 END) AS \"415\",\r\n  SUM(CASE WHEN status = '416' THEN 1 ELSE 0 END) AS \"416\",\r\n  SUM(CASE WHEN status = '417' THEN 1 ELSE 0 END) AS \"417\",\r\n  SUM(CASE WHEN status = '418' THEN 1 ELSE 0 END) AS \"418\",\r\n  SUM(CASE WHEN status = '422' THEN 1 ELSE 0 END) AS \"422\",\r\n  SUM(CASE WHEN status = '426' THEN 1 ELSE 0 END) AS \"426\",\r\n  SUM(CASE WHEN status = '429' THEN 1 ELSE 0 END) AS \"429\",\r\n  SUM(CASE WHEN status = '431' THEN 1 ELSE 0 END) AS \"431\",\r\n\r\n  -- 5xx Server Errors\r\n  SUM(CASE WHEN status = '500' THEN 1 ELSE 0 END) AS \"500\",\r\n  SUM(CASE WHEN status = '501' THEN 1 ELSE 0 END) AS \"501\",\r\n  SUM(CASE WHEN status = '502' THEN 1 ELSE 0 END) AS \"502\",\r\n  SUM(CASE WHEN status = '503' THEN 1 ELSE 0 END) AS \"503\",\r\n  SUM(CASE WHEN status = '504' THEN 1 ELSE 0 END) AS \"504\",\r\n  SUM(CASE WHEN status = '505' THEN 1 ELSE 0 END) AS \"505\",\r\n  SUM(CASE WHEN status = '507' THEN 1 ELSE 0 END) AS \"507\",\r\n  SUM(CASE WHEN status = '508' THEN 1 ELSE 0 END) AS \"508\",\r\n  SUM(CASE WHEN status = '510' THEN 1 ELSE 0 END) AS \"510\",\r\n  SUM(CASE WHEN status = '511' THEN 1 ELSE 0 END) AS \"511\"\r\n\r\nFROM responses\r\nLEFT JOIN requests ON responses.reqid = requests.id \r\n",
           "refId": "A",
           "timeColumns": [
             "time",
@@ -142,15 +163,6 @@
         }
       ],
       "title": "Status codes",
-      "transformations": [
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [],
-            "fields": {}
-          }
-        }
-      ],
       "type": "piechart"
     },
     {
@@ -190,7 +202,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -259,7 +271,7 @@
                 "id": "custom.hideFrom",
                 "value": {
                   "legend": false,
-                  "tooltip": false,
+                  "tooltip": true,
                   "viz": true
                 }
               }
@@ -290,6 +302,7 @@
         "showValue": "auto",
         "stacking": "normal",
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "desc"
         },
@@ -298,7 +311,7 @@
         "xTickLabelRotation": -60,
         "xTickLabelSpacing": 0
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -352,6 +365,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 15,
             "gradientMode": "none",
@@ -368,6 +382,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -383,7 +398,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -440,11 +455,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -501,7 +517,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -570,7 +586,7 @@
                 "id": "custom.hideFrom",
                 "value": {
                   "legend": false,
-                  "tooltip": false,
+                  "tooltip": true,
                   "viz": true
                 }
               }
@@ -601,6 +617,7 @@
         "showValue": "auto",
         "stacking": "normal",
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "desc"
         },
@@ -609,7 +626,7 @@
         "xTickLabelRotation": -60,
         "xTickLabelSpacing": 0
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -655,15 +672,14 @@
       "type": "barchart"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "revision": 1,
-  "schemaVersion": 39,
+  "schemaVersion": 42,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
           "text": "3",
           "value": "3"
         },
@@ -672,23 +688,17 @@
           "uid": "P59B5E0575BD8E253"
         },
         "definition": "SELECT id FROM runs",
-        "hide": 0,
         "includeAll": false,
         "label": "Run",
-        "multi": false,
         "name": "runid",
         "options": [],
         "query": "SELECT id FROM runs",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
-        "allValue": "",
         "current": {
-          "selected": true,
           "text": [
             "/account",
             "/account/email",
@@ -871,7 +881,6 @@
           "uid": "P59B5E0575BD8E253"
         },
         "definition": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
-        "hide": 0,
         "includeAll": false,
         "label": "Endpoint",
         "multi": true,
@@ -880,8 +889,6 @@
         "query": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       }
     ]
@@ -891,9 +898,8 @@
     "to": "2024-08-05T10:36:05.000Z"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "Europe/Amsterdam",
   "title": "Home",
   "uid": "zrrk-Ra4z",
-  "version": 1,
-  "weekStart": ""
+  "version": 1
 }

@@ -21,7 +21,6 @@
       }
     ]
   },
-  "description": "",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
@@ -40,7 +39,6 @@
       "url": ""
     }
   ],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -52,12 +50,15 @@
           "custom": {
             "align": "auto",
             "cellOptions": {
-              "type": "auto",
-              "wrapText": false
+              "type": "auto"
             },
             "filterable": true,
+            "footer": {
+              "reducers": []
+            },
             "inspect": true,
-            "minWidth": 50
+            "minWidth": 50,
+            "wrapText": false
           },
           "mappings": [],
           "thresholds": {
@@ -65,7 +66,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -174,7 +175,7 @@
         ]
       },
       "gridPos": {
-        "h": 13,
+        "h": 29,
         "w": 24,
         "x": 0,
         "y": 0
@@ -182,15 +183,7 @@
       "id": 2,
       "options": {
         "cellHeight": "md",
-        "footer": {
-          "countRows": false,
-          "enablePagination": true,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
+        "enablePagination": true,
         "showHeader": true,
         "sortBy": [
           {
@@ -199,7 +192,7 @@
           }
         ]
       },
-      "pluginVersion": "11.1.0",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -221,14 +214,14 @@
       "type": "table"
     }
   ],
-  "revision": 1,
-  "schemaVersion": 39,
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 42,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
           "text": "3",
           "value": "3"
         },
@@ -237,23 +230,17 @@
           "uid": "P59B5E0575BD8E253"
         },
         "definition": "SELECT id FROM runs",
-        "hide": 0,
         "includeAll": false,
         "label": "Run",
-        "multi": false,
         "name": "runid",
         "options": [],
         "query": "SELECT id FROM runs",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
-        "allValue": "",
         "current": {
-          "selected": false,
           "text": [
             "/pet",
             "/pet/findByStatus",
@@ -290,7 +277,6 @@
           "uid": "P59B5E0575BD8E253"
         },
         "definition": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
-        "hide": 0,
         "includeAll": false,
         "label": "Endpoint",
         "multi": true,
@@ -299,13 +285,10 @@
         "query": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
           "text": [
             "POST",
             "PUT",
@@ -324,7 +307,6 @@
           "uid": "P59B5E0575BD8E253"
         },
         "definition": "SELECT type FROM requests",
-        "hide": 0,
         "includeAll": false,
         "label": "Method",
         "multi": true,
@@ -333,13 +315,10 @@
         "query": "SELECT type FROM requests",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
           "text": [
             "200"
           ],
@@ -352,7 +331,6 @@
           "uid": "P59B5E0575BD8E253"
         },
         "definition": "SELECT status FROM responses",
-        "hide": 0,
         "includeAll": false,
         "label": "Status Code",
         "multi": true,
@@ -361,17 +339,14 @@
         "query": "SELECT status FROM responses",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 3,
         "type": "query"
       },
       {
         "current": {
-          "selected": false,
           "text": "100",
           "value": "100"
         },
-        "hide": 0,
         "label": "# of Rows",
         "name": "nrows",
         "options": [
@@ -382,7 +357,6 @@
           }
         ],
         "query": "100",
-        "skipUrlSync": false,
         "type": "textbox"
       }
     ]
@@ -392,9 +366,8 @@
     "to": "2024-07-15T13:08:30.000Z"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "Europe/Amsterdam",
   "title": "Requests and Responses",
   "uid": "fdspvzzugpbswe",
-  "version": 2,
-  "weekStart": ""
+  "version": 1
 }
