@@ -1600,6 +1600,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "dockworker",
+ "futures-util",
  "include_dir",
  "tokio",
 ]
