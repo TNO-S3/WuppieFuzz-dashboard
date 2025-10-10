@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "grafana",
-          "uid": "-- Grafana --"
+          "uid": "-- WuppieFuzz Dashboard --"
         },
         "enable": true,
         "hide": true,
@@ -242,34 +242,10 @@
       {
         "current": {
           "text": [
-            "/pet",
-            "/pet/findByStatus",
-            "/pet/findByTags",
-            "/pet/{petId}",
-            "/pet/{petId}/uploadImage",
-            "/store/inventory",
-            "/store/order",
-            "/store/order/{orderId}",
-            "/user",
-            "/user/createWithList",
-            "/user/login",
-            "/user/logout",
-            "/user/{username}"
+            ""
           ],
           "value": [
-            "/pet",
-            "/pet/findByStatus",
-            "/pet/findByTags",
-            "/pet/{petId}",
-            "/pet/{petId}/uploadImage",
-            "/store/inventory",
-            "/store/order",
-            "/store/order/{orderId}",
-            "/user",
-            "/user/createWithList",
-            "/user/login",
-            "/user/logout",
-            "/user/{username}"
+            ""
           ]
         },
         "datasource": {
@@ -362,8 +338,8 @@
     ]
   },
   "time": {
-    "from": "2024-07-15T13:03:22.000Z",
-    "to": "2024-07-15T13:08:30.000Z"
+    "from": "",
+    "to": ""
   },
   "timepicker": {},
   "timezone": "Europe/Amsterdam",
