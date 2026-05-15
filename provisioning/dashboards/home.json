@@ -531,7 +531,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 23
+        "y": 34
       },
       "id": 9,
       "options": {
@@ -650,7 +650,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 23
+        "y": 34
       },
       "id": 10,
       "options": {
@@ -684,6 +684,255 @@
       ],
       "title": "Corpus, Objectives & Requests Completed",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 42
+      },
+      "id": 11,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Sequence length",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "10.4.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT\n    CAST(seq_size AS TEXT) as \"Sequence length\",\n    COUNT(*) as \"Sequences\"\nFROM (\n    SELECT inputid, COUNT(*) as seq_size\n    FROM requests\n    WHERE runid = \"$runid\"\n    GROUP BY inputid\n)\nGROUP BY seq_size\nORDER BY seq_size",
+          "rawQueryText": "SELECT\n    CAST(seq_size AS TEXT) as \"Sequence length\",\n    COUNT(*) as \"Sequences\"\nFROM (\n    SELECT inputid, COUNT(*) as seq_size\n    FROM requests\n    WHERE runid = \"$runid\"\n    GROUP BY inputid\n)\nGROUP BY seq_size\nORDER BY seq_size",
+          "queryType": "table",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Sequence size distribution",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "description": "Cumulative reasons why input sequences either completed or stopped early.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 52
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.4.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) as time, sequences_completed_total as \"Completed\", sequences_missing_backreference_total as \"Missing backreference\", sequences_crash_or_validation_total as \"Crash or validation\", sequences_transport_error_total as \"Transport error\", sequences_request_build_error_total as \"Request build error\" FROM stats WHERE runid = \"$runid\" ORDER BY timestamp",
+          "queryType": "table",
+          "rawQueryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) as time, sequences_completed_total as \"Completed\", sequences_missing_backreference_total as \"Missing backreference\", sequences_crash_or_validation_total as \"Crash or validation\", sequences_transport_error_total as \"Transport error\", sequences_request_build_error_total as \"Request build error\" FROM stats WHERE runid = \"$runid\" ORDER BY timestamp",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Sequence outcomes",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "description": "Latest cumulative wall-clock time spent in major SequenceExecutor phases.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "µs"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 60
+      },
+      "id": 13,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Phase",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "10.4.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "WITH latest AS (SELECT * FROM stats WHERE runid = \"$runid\" ORDER BY timestamp DESC LIMIT 1) SELECT 'Resolve backreference' AS \"Phase\", resolve_backreference_us_total AS \"Total us\" FROM latest UNION ALL SELECT 'Build request', build_request_us_total FROM latest UNION ALL SELECT 'Report request', report_request_us_total FROM latest UNION ALL SELECT 'HTTP execute', http_execute_us_total FROM latest UNION ALL SELECT 'Report response', report_response_us_total FROM latest UNION ALL SELECT 'Process response', process_response_us_total FROM latest UNION ALL SELECT 'Endpoint cover', endpoint_cover_us_total FROM latest UNION ALL SELECT 'Code coverage phase', code_coverage_phase_us_total FROM latest UNION ALL SELECT 'Endpoint coverage phase', endpoint_coverage_phase_us_total FROM latest UNION ALL SELECT 'Post-exec reporting', post_exec_reporting_us_total FROM latest",
+          "queryType": "table",
+          "rawQueryText": "WITH latest AS (SELECT * FROM stats WHERE runid = \"$runid\" ORDER BY timestamp DESC LIMIT 1) SELECT 'Resolve backreference' AS \"Phase\", resolve_backreference_us_total AS \"Total us\" FROM latest UNION ALL SELECT 'Build request', build_request_us_total FROM latest UNION ALL SELECT 'Report request', report_request_us_total FROM latest UNION ALL SELECT 'HTTP execute', http_execute_us_total FROM latest UNION ALL SELECT 'Report response', report_response_us_total FROM latest UNION ALL SELECT 'Process response', process_response_us_total FROM latest UNION ALL SELECT 'Endpoint cover', endpoint_cover_us_total FROM latest UNION ALL SELECT 'Code coverage phase', code_coverage_phase_us_total FROM latest UNION ALL SELECT 'Endpoint coverage phase', endpoint_coverage_phase_us_total FROM latest UNION ALL SELECT 'Post-exec reporting', post_exec_reporting_us_total FROM latest",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Executor phase time totals",
+      "type": "barchart"
     },
     {
       "datasource": {
@@ -779,7 +1028,7 @@
         "h": 11,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 23
       },
       "id": 8,
       "interval": "1ms",
