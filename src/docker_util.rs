@@ -50,7 +50,7 @@ pub async fn start_container<'a>(
     // Set up volume bindings from the temp directory
     let binds = vec![
         format!(
-            "{}:/var/lib/grafana/datasources/report.db",
+            "{}:/home/grafana/report.db",
             report_db_path.to_str().unwrap().to_string()
         ),
         format!(
