@@ -5,4 +5,4 @@ datasources:
     type: frser-sqlite-datasource
     isDefault: true
     jsonData:
-      path: /var/lib/grafana/datasources/report.db
+      path: /home/grafana/report.db
