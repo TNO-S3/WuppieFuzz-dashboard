@@ -306,12 +306,12 @@
           "type": "frser-sqlite-datasource",
           "uid": "P59B5E0575BD8E253"
         },
-        "definition": "SELECT id FROM runs",
+        "definition": "SELECT id FROM runs ORDER BY id DESC",
         "includeAll": false,
         "label": "Run",
         "name": "runid",
         "options": [],
-        "query": "SELECT id FROM runs",
+        "query": "SELECT id FROM runs ORDER BY id DESC",
         "refresh": 1,
         "regex": "",
         "type": "query"
