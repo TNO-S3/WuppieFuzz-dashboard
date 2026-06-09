@@ -359,6 +359,7 @@
           "color": {
             "mode": "palette-classic"
           },
+          "unit": "percent",
           "custom": {
             "axisBorderShow": false,
             "axisCenteredZero": false,
