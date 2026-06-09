@@ -34,10 +34,10 @@
       "keepTime": false,
       "tags": [],
       "targetBlank": false,
-      "title": "Zoom To Run Data",
+      "title": "Zoom to Run Data",
       "tooltip": "",
       "type": "link",
-      "url": "?from=${min_time}&to=${max_time}"
+      "url": "/d/zrrk-Ra4z?from=${min_time}&to=${max_time}"
     },
     {
       "asDropdown": false,
