@@ -71,7 +71,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "blue",
-                  "mode": "shades"
+                  "mode": "single"
                 }
               }
             ]
@@ -86,7 +86,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "green",
-                  "mode": "shades"
+                  "mode": "single"
                 }
               }
             ]
@@ -101,7 +101,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "red",
-                  "mode": "shades"
+                  "mode": "single"
                 }
               }
             ]
@@ -861,10 +861,6 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "text": "1",
-          "value": "1"
-        },
         "datasource": {
           "type": "frser-sqlite-datasource",
           "uid": "P59B5E0575BD8E253"

@@ -298,28 +298,48 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "text": "1",
-          "value": "1"
-        },
         "datasource": {
           "type": "frser-sqlite-datasource",
           "uid": "P59B5E0575BD8E253"
         },
-<<<<<<< HEAD
+        "definition": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', MIN(timestamp)) FROM stats WHERE runid = $runid",
+        "hide": true,
+        "includeAll": false,
+        "label": "Min Time",
+        "name": "min_time",
+        "options": [],
+        "query": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', MIN(timestamp)) FROM stats WHERE runid = $runid",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', MAX(timestamp)) FROM stats WHERE runid = $runid",
+        "hide": true,
+        "includeAll": false,
+        "label": "Max Time",
+        "name": "max_time",
+        "options": [],
+        "query": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', MAX(timestamp)) FROM stats WHERE runid = $runid",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
         "definition": "SELECT id FROM runs ORDER BY id DESC",
-=======
-        "definition": "SELECT id FROM runs",
->>>>>>> 30e0a8e (Create dashboard for debug graphs)
         "includeAll": false,
         "label": "Run",
         "name": "runid",
         "options": [],
-<<<<<<< HEAD
         "query": "SELECT id FROM runs ORDER BY id DESC",
-=======
-        "query": "SELECT id FROM runs",
->>>>>>> 30e0a8e (Create dashboard for debug graphs)
         "refresh": 1,
         "regex": "",
         "type": "query"
