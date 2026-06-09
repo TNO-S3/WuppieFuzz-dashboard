@@ -1,14 +1,45 @@
 use crate::embed_files;
 use dockworker::container::ContainerFilters;
 use dockworker::{ContainerCreateOptions, ContainerHostConfig, Docker, PortBindings};
-use futures_util::StreamExt;
 use include_dir::Dir;
-use std::future;
 use std::path::Path;
+use std::process::Command;
 use std::time::Duration;
 
 pub fn connect_docker() -> Docker {
-    return Docker::connect_with_defaults().expect("[-] Failed to connect to Docker");
+    Docker::connect_with_defaults().expect("[-] Failed to connect to Docker")
+}
+
+/// Check if a Docker image exists locally
+async fn image_exists(docker: &Docker, image_name: &str) -> bool {
+    match docker.images(false).await {
+        Ok(images) => images
+            .iter()
+            .any(|img| img.RepoTags.iter().any(|tag| tag.contains(image_name))),
+        Err(_) => false,
+    }
+}
+
+/// Build the custom Grafana image if it doesn't exist
+async fn build_grafana_image_if_needed(docker: &Docker, image_name: &str) {
+    if image_exists(docker, image_name).await {
+        println!("[*] Using cached Grafana image: {}", image_name);
+        return;
+    }
+
+    println!("[*] Building custom Grafana image...");
+    let output = Command::new("docker")
+        .args(["build", "-t", image_name, "docker/grafana"])
+        .output()
+        .expect("[-] Failed to execute docker build");
+
+    if !output.status.success() {
+        eprintln!("[-] Error building image:");
+        eprintln!("{}", String::from_utf8_lossy(&output.stderr));
+        std::process::exit(1);
+    }
+
+    println!("[*] Grafana image built successfully: {}", image_name);
 }
 
 /// Start the Grafana container
@@ -68,34 +99,14 @@ pub async fn start_container<'a>(
     ];
     host_config.binds(binds);
 
-    // Pull the image
-    println!("[*] Pulling grafana image ...");
-    match docker
-        .create_image("grafana/grafana-enterprise", "latest")
-        .await
-    {
-        Err(error) => {
-            println!("[-] Error: {:?}\n\tPulling the grafana image failed", error);
-            panic!("")
-        }
-        Ok(result) => {
-            result
-                .for_each(|item| {
-                    if let Err(error) = item {
-                        println!("[-] Error: {:?}\n\tPulling the grafana image failed", error);
-                        panic!("")
-                    }
-                    future::ready(())
-                })
-                .await
-        }
-    }
+    // Build the custom Grafana image if it doesn't exist
+    let image_name = "wuppiefuzz-grafana:latest";
+    build_grafana_image_if_needed(docker, image_name).await;
 
     // Create the container
-    let mut create_options = ContainerCreateOptions::new("grafana/grafana-enterprise:latest");
+    let mut create_options = ContainerCreateOptions::new(image_name);
     create_options
         .hostname(container_name.to_string())
-        .env("GF_INSTALL_PLUGINS=frser-sqlite-datasource".to_string())
         .host_config(host_config);
 
     let container_id_result = docker

@@ -51,5 +51,5 @@ pub fn setup_embedded_files(embedded_dir: &Dir, embedded_file: &str) -> std::pat
 
     println!("Files written to: {}", temp_dir.display());
 
-    return temp_dir;
+    temp_dir
 }
