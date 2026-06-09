@@ -1,6 +1,6 @@
 [package]
 name = "wuppiefuzz-dashboard"
-version = "0.3.0"
+version = "0.4.0"
 authors = [
     "TNO Software and System Security"
 ]
