@@ -1,17 +1,16 @@
-use include_dir::{include_dir, Dir};
-use std::path::{Path, absolute};
 use clap::Parser;
+use include_dir::{include_dir, Dir};
+use std::path::{absolute, Path};
 
 // Custom module imports
+pub mod cli;
 pub mod docker_util;
 pub mod embed_files;
-pub mod cli;
 
 // Global variables
 pub const CONTAINER_NAME: &str = "grafana-dashboard";
 pub const GRAFANA_INI: &str = include_str!("../grafana.ini");
 pub static PROVISIONING_DIR: Dir = include_dir!("$CARGO_MANIFEST_DIR/provisioning");
-
 
 #[tokio::main]
 async fn main() {
@@ -26,7 +25,6 @@ async fn main() {
         cli::Commands::License => cli::print_license(),
         cli::Commands::Version => cli::print_version(),
         cli::Commands::Start(cmd_args) => {
-
             // Convert the relative path to an absolute path
             let absolute_report_db_path = match absolute(&cmd_args.database) {
                 Ok(path) => path,
@@ -42,7 +40,9 @@ async fn main() {
                 &GRAFANA_INI,
             )
             .await;
-        },
-        &cli::Commands::Stop => docker_util::stop_and_remove_container(&docker, &CONTAINER_NAME).await,
+        }
+        &cli::Commands::Stop => {
+            docker_util::stop_and_remove_container(&docker, &CONTAINER_NAME).await
+        }
     };
 }
