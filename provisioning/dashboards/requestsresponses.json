@@ -7,8 +7,8 @@
           "type": "grafana",
           "uid": "-- WuppieFuzz Dashboard --"
         },
-        "enable": true,
         "hide": true,
+        "enable": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
         "target": {
@@ -249,7 +249,7 @@
           "uid": "P59B5E0575BD8E253"
         },
         "definition": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
-        "includeAll": false,
+        "includeAll": true,
         "label": "Endpoint",
         "multi": true,
         "name": "endpoint",

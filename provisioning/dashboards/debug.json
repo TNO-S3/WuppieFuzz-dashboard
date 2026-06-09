@@ -303,7 +303,7 @@
           "uid": "P59B5E0575BD8E253"
         },
         "definition": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', MIN(timestamp)) FROM stats WHERE runid = $runid",
-        "hide": true,
+        "hide": 2,
         "includeAll": false,
         "label": "Min Time",
         "name": "min_time",
