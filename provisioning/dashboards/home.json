@@ -29,15 +29,25 @@
   "links": [
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": true,
+      "icon": "bolt",
+      "includeVars": false,
       "keepTime": false,
       "tags": [],
       "targetBlank": false,
       "title": "Zoom To Run Data",
       "tooltip": "",
-      "type": "dashboards",
+      "type": "link",
       "url": "?from=${min_time}&to=${max_time}"
+    },
+    {
+      "asDropdown": false,
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Link",
+      "tooltip": "",
+      "type": "dashboards"
     }
   ],
   "panels": [
@@ -880,13 +890,13 @@
           "type": "frser-sqlite-datasource",
           "uid": "P59B5E0575BD8E253"
         },
-        "definition": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', MIN(timestamp)) FROM coverage WHERE runid = $runid",
+        "definition": "SELECT CAST(MIN(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM coverage WHERE runid = $runid",
         "hide": 2,
         "includeAll": false,
         "label": "Min Time",
         "name": "min_time",
         "options": [],
-        "query": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', MIN(timestamp)) FROM coverage WHERE runid = $runid",
+        "query": "SELECT CAST(MIN(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM coverage WHERE runid = $runid",
         "refresh": 1,
         "regex": "",
         "type": "query"
@@ -896,13 +906,13 @@
           "type": "frser-sqlite-datasource",
           "uid": "P59B5E0575BD8E253"
         },
-        "definition": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', MAX(timestamp)) FROM coverage WHERE runid = $runid",
+        "definition": "SELECT CAST(MAX(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM coverage WHERE runid = $runid",
         "hide": 2,
         "includeAll": false,
         "label": "Max Time",
         "name": "max_time",
         "options": [],
-        "query": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', MAX(timestamp)) FROM coverage WHERE runid = $runid",
+        "query": "SELECT CAST(MAX(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM coverage WHERE runid = $runid",
         "refresh": 1,
         "regex": "",
         "type": "query"

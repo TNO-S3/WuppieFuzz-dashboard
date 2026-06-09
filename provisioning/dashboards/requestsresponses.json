@@ -28,15 +28,25 @@
   "links": [
     {
       "asDropdown": false,
-      "icon": "external link",
+      "icon": "bolt",
+      "includeVars": true,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Zoom To Run Data",
+      "tooltip": "",
+      "type": "link",
+      "url": "?from=${min_time}&to=${max_time}"
+    },
+    {
+      "asDropdown": false,
       "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Link",
       "tooltip": "",
-      "type": "dashboards",
-      "url": ""
+      "type": "dashboards"
     }
   ],
   "panels": [
@@ -231,6 +241,38 @@
         "name": "runid",
         "options": [],
         "query": "SELECT id FROM runs ORDER BY id DESC",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT CAST(MIN(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM requests WHERE runid = $runid",
+        "hide": 2,
+        "includeAll": false,
+        "label": "Min Time",
+        "name": "min_time",
+        "options": [],
+        "query": "SELECT CAST(MIN(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM requests WHERE runid = $runid",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT CAST(MAX(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM requests WHERE runid = $runid",
+        "hide": 2,
+        "includeAll": false,
+        "label": "Max Time",
+        "name": "max_time",
+        "options": [],
+        "query": "SELECT CAST(MAX(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM requests WHERE runid = $runid",
         "refresh": 1,
         "regex": "",
         "type": "query"
