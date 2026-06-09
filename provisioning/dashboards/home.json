@@ -71,7 +71,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "blue",
-                  "mode": "single"
+                  "mode": "fixed"
                 }
               }
             ]
@@ -86,7 +86,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "green",
-                  "mode": "single"
+                  "mode": "fixed"
                 }
               }
             ]
@@ -101,7 +101,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "red",
-                  "mode": "single"
+                  "mode": "fixed"
                 }
               }
             ]
@@ -739,7 +739,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "blue",
-                  "mode": "shades"
+                  "mode": "fixed"
                 }
               }
             ]
@@ -754,7 +754,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "green",
-                  "mode": "shades"
+                  "mode": "fixed"
                 }
               }
             ]
@@ -769,7 +769,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "red",
-                  "mode": "shades"
+                  "mode": "fixed"
                 }
               }
             ]
