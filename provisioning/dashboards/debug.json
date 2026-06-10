@@ -21,7 +21,7 @@
       }
     ]
   },
-  "description": "Debug data and profiling information",
+  "description": "Debug data, profiling information, and run configuration details",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
@@ -249,7 +249,7 @@
               }
             ]
           },
-          "unit": "µs"
+          "unit": "\u00b5s"
         },
         "overrides": []
       },
@@ -299,12 +299,570 @@
       ],
       "title": "Executor phase time totals",
       "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 28
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT timeout_secs FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "rawQueryText": "SELECT timeout_secs FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Timeout (s)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 28
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT request_timeout_ms FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "rawQueryText": "SELECT request_timeout_ms FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Request Timeout (ms)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 28
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "values": true,
+          "calcs": [],
+          "fields": "/.*/"
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT COALESCE(coverage_format, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "rawQueryText": "SELECT COALESCE(coverage_format, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Coverage Format",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 0,
+        "y": 31
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "values": true,
+          "calcs": [],
+          "fields": "/.*/"
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT COALESCE(power_schedule, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "rawQueryText": "SELECT COALESCE(power_schedule, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Power Schedule",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 31
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "values": true,
+          "calcs": [],
+          "fields": "/.*/"
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT COALESCE(method_mutation_strategy, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "rawQueryText": "SELECT COALESCE(method_mutation_strategy, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Method Mutation",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": true,
+            "minWidth": 160,
+            "wrapText": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 34
+      },
+      "id": 10,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "WITH RECURSIVE split(value, rest) AS ( SELECT '', COALESCE((SELECT crash_criteria FROM run_configuration WHERE runid = \"$runid\" LIMIT 1), '') || ',' UNION ALL SELECT trim(substr(rest, 1, instr(rest, ',') - 1)), substr(rest, instr(rest, ',') + 1) FROM split WHERE rest <> '' ) SELECT value AS \"Crash Criterion\" FROM split WHERE value <> ''",
+          "rawQueryText": "WITH RECURSIVE split(value, rest) AS ( SELECT '', COALESCE((SELECT crash_criteria FROM run_configuration WHERE runid = \"$runid\" LIMIT 1), '') || ',' UNION ALL SELECT trim(substr(rest, 1, instr(rest, ',') - 1)), substr(rest, instr(rest, ',') + 1) FROM split WHERE rest <> '' ) SELECT value AS \"Crash Criterion\" FROM split WHERE value <> ''",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Crash Criteria",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": true,
+            "minWidth": 120,
+            "wrapText": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 40
+      },
+      "id": 5,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT run_command_args, config_file_path FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "rawQueryText": "SELECT run_command_args, config_file_path FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Run Details",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": true,
+            "minWidth": 200,
+            "wrapText": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 44
+      },
+      "id": 6,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT config_file_contents FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "rawQueryText": "SELECT config_file_contents FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Config File Contents",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": true,
+            "minWidth": 90,
+            "wrapText": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 56
+      },
+      "id": 7,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT runid, target_title, target_version, wuppiefuzz_version, power_schedule, method_mutation_strategy, crash_criteria, timeout_secs, request_timeout_ms FROM run_configuration ORDER BY runid DESC",
+          "rawQueryText": "SELECT runid, target_title, target_version, wuppiefuzz_version, power_schedule, method_mutation_strategy, crash_criteria, timeout_secs, request_timeout_ms FROM run_configuration ORDER BY runid DESC",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "All Runs Configuration Overview",
+      "type": "table"
     }
   ],
   "preload": false,
   "refresh": "",
   "schemaVersion": 42,
-  "tags": [],
+  "tags": [
+    "configuration",
+    "debug"
+  ],
   "templating": {
     "list": [
       {

@@ -59,33 +59,160 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": []
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
         },
         "overrides": [
           {
             "matcher": {
-              "id": "byRegexp",
-              "options": "4.*"
+              "id": "byName",
+              "options": "full_version"
             },
             "properties": [
               {
-                "id": "color",
+                "id": "custom.hideFrom",
                 "value": {
-                  "fixedColor": "blue",
-                  "mode": "fixed"
+                  "legend": true,
+                  "tooltip": false,
+                  "viz": true
                 }
               }
             ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "values": true,
+          "calcs": [],
+          "fields": "/.*/"
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
           },
+          "queryText": "SELECT COALESCE(target_title, '-') || ' ' || COALESCE(target_version, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "rawQueryText": "SELECT COALESCE(target_title, '-') || ' ' || COALESCE(target_version, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Target",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 13,
+      "description": "${wuppiefuzz_version}",
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "values": true,
+          "calcs": [],
+          "fields": "/.*/"
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT 'WuppieFuzz ' || COALESCE(CASE WHEN instr(wuppiefuzz_version, '-') > 0 THEN substr(wuppiefuzz_version, 1, instr(wuppiefuzz_version, '-') - 1) ELSE wuppiefuzz_version END, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "rawQueryText": "SELECT 'WuppieFuzz ' || COALESCE(CASE WHEN instr(wuppiefuzz_version, '-') > 0 THEN substr(wuppiefuzz_version, 1, instr(wuppiefuzz_version, '-') - 1) ELSE wuppiefuzz_version END, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Fuzzer",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
           {
             "matcher": {
               "id": "byRegexp",
@@ -96,6 +223,21 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "4.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
                   "mode": "fixed"
                 }
               }
@@ -122,7 +264,7 @@
         "h": 10,
         "w": 4,
         "x": 0,
-        "y": 0
+        "y": 3
       },
       "id": 6,
       "options": {
@@ -284,7 +426,7 @@
         "h": 10,
         "w": 20,
         "x": 4,
-        "y": 0
+        "y": 3
       },
       "id": 4,
       "interval": "1ms",
@@ -446,7 +588,7 @@
         "h": 13,
         "w": 24,
         "x": 0,
-        "y": 10
+        "y": 13
       },
       "id": 7,
       "options": {
@@ -542,7 +684,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 34
+        "y": 37
       },
       "id": 9,
       "options": {
@@ -661,7 +803,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 34
+        "y": 37
       },
       "id": 10,
       "options": {
@@ -696,7 +838,6 @@
       "title": "Corpus, Objectives & Requests Completed",
       "type": "timeseries"
     },
-
     {
       "datasource": {
         "type": "frser-sqlite-datasource",
@@ -791,7 +932,7 @@
         "h": 11,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 34
       },
       "id": 8,
       "interval": "1ms",
@@ -938,6 +1079,22 @@
         "name": "endpoint",
         "options": [],
         "query": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT wuppiefuzz_version FROM run_configuration WHERE runid = $runid LIMIT 1",
+        "hide": 2,
+        "includeAll": false,
+        "label": "WuppieFuzz Version",
+        "name": "wuppiefuzz_version",
+        "options": [],
+        "query": "SELECT wuppiefuzz_version FROM run_configuration WHERE runid = $runid LIMIT 1",
         "refresh": 1,
         "regex": "",
         "type": "query"
