@@ -27,9 +27,11 @@ async fn build_grafana_image_if_needed(docker: &Docker, image_name: &str) {
         return;
     }
 
+    let build_context = "docker/grafana";
+
     println!("[*] Building custom Grafana image...");
     let output = Command::new("docker")
-        .args(["build", "-t", image_name, "docker/grafana"])
+        .args(["build", "-t", image_name, build_context])
         .output()
         .expect("[-] Failed to execute docker build");
 
