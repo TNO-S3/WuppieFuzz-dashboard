@@ -12,13 +12,42 @@ challenges of fuzzing is how to make sense of this data and to use it
 effectively. To improve this process, WuppieFuzz makes use of Grafana to
 visualise the fuzzing data in a user-friendly dashboard.
 
-![Example output of the dashboard](./assets/example.png)
+## Quick install
+
+For quick installation of WuppieFuzz for popular operating systems (MacOS,
+Windows, Linux) see [releases](https://github.com/TNO-S3/WuppieFuzz-dashboard/releases/).
+
+> [!NOTE]
+> [Docker](https://www.docker.com/get-started/) is required. 
+
+### Dashboard views
+
+#### Home
+
+Home is used for general statistics and insights.
+
+![Home dashboard view](./assets/example_home.jpeg)
+
+#### Debug
+
+Debug is used mainly for WuppieFuzz developers to understand what happened,
+and it also illustrates configuration of run(s).
+
+![Debug dashboard view](./assets/example_debug.jpeg)
+
+#### Triage
+
+Triage is used to zoom in on specific requests and responses.
+
+![Triage dashboard view](./assets/example_triage.jpeg)
 
 Below we will describe the steps for using this dashboard.
 
-### Requirements
+## Using Docker directly
 
-Docker is required to use the Grafana dashboard.
+You can also run the dashboard using the docker compose file directly. This
+helps in development as changes to the grafana JSON dashboards are reloaded
+directly.
 
 ### Database
 
