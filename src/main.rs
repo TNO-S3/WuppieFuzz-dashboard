@@ -10,6 +10,7 @@ pub mod embed_files;
 // Global variables
 pub const CONTAINER_NAME: &str = "grafana-dashboard";
 pub const GRAFANA_INI: &str = include_str!("../grafana.ini");
+pub const GRAFANA_DOCKERFILE: &str = include_str!("../docker/grafana/Dockerfile");
 pub static PROVISIONING_DIR: Dir = include_dir!("$CARGO_MANIFEST_DIR/provisioning");
 
 #[tokio::main]
@@ -38,6 +39,7 @@ async fn main() {
                 report_db_path,
                 &PROVISIONING_DIR,
                 GRAFANA_INI,
+                GRAFANA_DOCKERFILE,
             )
             .await;
         }

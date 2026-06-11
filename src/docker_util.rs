@@ -21,17 +21,22 @@ async fn image_exists(docker: &Docker, image_name: &str) -> bool {
 }
 
 /// Build the custom Grafana image if it doesn't exist
-async fn build_grafana_image_if_needed(docker: &Docker, image_name: &str) {
+async fn build_grafana_image_if_needed(
+    docker: &Docker,
+    image_name: &str,
+    dockerfile_content: &str,
+) {
     if image_exists(docker, image_name).await {
         println!("[*] Using cached Grafana image: {}", image_name);
         return;
     }
 
-    let build_context = "docker/grafana";
+    let build_context = embed_files::setup_dockerfile(dockerfile_content);
+    let build_context_str = build_context.to_str().unwrap();
 
     println!("[*] Building custom Grafana image...");
     let output = Command::new("docker")
-        .args(["build", "-t", image_name, build_context])
+        .args(["build", "-t", image_name, build_context_str])
         .output()
         .expect("[-] Failed to execute docker build");
 
@@ -51,6 +56,7 @@ pub async fn start_container<'a>(
     report_db_path: &Path,
     embedded_dir: &Dir<'a>,
     embedded_file: &str,
+    dockerfile_content: &str,
 ) {
     if !report_db_path.exists() {
         eprintln!("[*] Error: The specified report.db path does not exist.");
@@ -103,7 +109,7 @@ pub async fn start_container<'a>(
 
     // Build the custom Grafana image if it doesn't exist
     let image_name = "wuppiefuzz-grafana:latest";
-    build_grafana_image_if_needed(docker, image_name).await;
+    build_grafana_image_if_needed(docker, image_name, dockerfile_content).await;
 
     // Create the container
     let mut create_options = ContainerCreateOptions::new(image_name);
