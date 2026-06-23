@@ -1,13 +1,12 @@
-use std::{env, process::Command};
 use clap::{Args, Parser, Subcommand};
 use std::path::PathBuf;
+use std::{env, process::Command};
 
 #[derive(Args, Debug)]
 pub struct StartArguments {
     #[arg(short, long, value_name = "report.db")]
     pub database: PathBuf,
 }
-
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
