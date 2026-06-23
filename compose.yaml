@@ -1,10 +1,10 @@
 services:
   grafana-dashboard:
-    image: grafana/grafana-enterprise
+    build:
+      context: .
+      dockerfile: docker/grafana/Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - GF_INSTALL_PLUGINS=frser-sqlite-datasource
     volumes:
       - type: bind
         source: ../reports/grafana/report.db

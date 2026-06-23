@@ -51,5 +51,14 @@ pub fn setup_embedded_files(embedded_dir: &Dir, embedded_file: &str) -> std::pat
 
     println!("Files written to: {}", temp_dir.display());
 
-    return temp_dir;
+    temp_dir
+}
+
+/// Setup Dockerfile in a temporary build context directory
+pub fn setup_dockerfile(dockerfile_content: &str) -> std::path::PathBuf {
+    let build_context = std::env::temp_dir().join("grafana_build");
+    fs::create_dir_all(&build_context).expect("Failed to create build context directory");
+    let dockerfile_path = build_context.join("Dockerfile");
+    write_embedded_file(&dockerfile_path, dockerfile_content.as_bytes());
+    build_context
 }

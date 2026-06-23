@@ -10,6 +10,7 @@ pub mod embed_files;
 // Global variables
 pub const CONTAINER_NAME: &str = "grafana-dashboard";
 pub const GRAFANA_INI: &str = include_str!("../grafana.ini");
+pub const GRAFANA_DOCKERFILE: &str = include_str!("../docker/grafana/Dockerfile");
 pub static PROVISIONING_DIR: Dir = include_dir!("$CARGO_MANIFEST_DIR/provisioning");
 
 #[tokio::main]
@@ -34,15 +35,16 @@ async fn main() {
             let report_db_path = Path::new(&absolute_report_db_path);
             docker_util::start_container(
                 &docker,
-                &CONTAINER_NAME,
+                CONTAINER_NAME,
                 report_db_path,
                 &PROVISIONING_DIR,
-                &GRAFANA_INI,
+                GRAFANA_INI,
+                GRAFANA_DOCKERFILE,
             )
             .await;
         }
         &cli::Commands::Stop => {
-            docker_util::stop_and_remove_container(&docker, &CONTAINER_NAME).await
+            docker_util::stop_and_remove_container(&docker, CONTAINER_NAME).await
         }
     };
 }
