@@ -29,15 +29,25 @@
   "links": [
     {
       "asDropdown": false,
-      "icon": "external link",
+      "icon": "bolt",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Zoom to Run Data",
+      "tooltip": "",
+      "type": "link",
+      "url": "/d/zrrk-Ra4z?from=${min_time}&to=${max_time}"
+    },
+    {
+      "asDropdown": false,
       "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Link",
       "tooltip": "",
-      "type": "dashboards",
-      "url": ""
+      "type": "dashboards"
     }
   ],
   "panels": [
@@ -49,33 +59,160 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": []
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
         },
         "overrides": [
           {
             "matcher": {
-              "id": "byRegexp",
-              "options": "4.*"
+              "id": "byName",
+              "options": "full_version"
             },
             "properties": [
               {
-                "id": "color",
+                "id": "custom.hideFrom",
                 "value": {
-                  "fixedColor": "blue",
-                  "mode": "shades"
+                  "legend": true,
+                  "tooltip": false,
+                  "viz": true
                 }
               }
             ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "values": true,
+          "calcs": [],
+          "fields": "/.*/"
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
           },
+          "queryText": "SELECT COALESCE(target_title, '-') || ' ' || COALESCE(target_version, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "rawQueryText": "SELECT COALESCE(target_title, '-') || ' ' || COALESCE(target_version, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Target",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 13,
+      "description": "${wuppiefuzz_version}",
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "values": true,
+          "calcs": [],
+          "fields": "/.*/"
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT 'WuppieFuzz ' || COALESCE(CASE WHEN instr(wuppiefuzz_version, '-') > 0 THEN substr(wuppiefuzz_version, 1, instr(wuppiefuzz_version, '-') - 1) ELSE wuppiefuzz_version END, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "rawQueryText": "SELECT 'WuppieFuzz ' || COALESCE(CASE WHEN instr(wuppiefuzz_version, '-') > 0 THEN substr(wuppiefuzz_version, 1, instr(wuppiefuzz_version, '-') - 1) ELSE wuppiefuzz_version END, '-') FROM run_configuration WHERE runid = \"$runid\" LIMIT 1",
+          "queryType": "table",
+          "refId": "A"
+        }
+      ],
+      "title": "Fuzzer",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
           {
             "matcher": {
               "id": "byRegexp",
@@ -86,7 +223,22 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "green",
-                  "mode": "shades"
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "4.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
                 }
               }
             ]
@@ -101,7 +253,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "red",
-                  "mode": "shades"
+                  "mode": "fixed"
                 }
               }
             ]
@@ -112,7 +264,7 @@
         "h": 10,
         "w": 4,
         "x": 0,
-        "y": 0
+        "y": 3
       },
       "id": 6,
       "options": {
@@ -232,7 +384,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "semi-dark-red",
+                  "fixedColor": "red",
                   "mode": "fixed"
                 }
               }
@@ -274,7 +426,7 @@
         "h": 10,
         "w": 20,
         "x": 4,
-        "y": 0
+        "y": 3
       },
       "id": 4,
       "interval": "1ms",
@@ -310,9 +462,9 @@
             "uid": "P59B5E0575BD8E253"
           },
           "hide": false,
-          "queryText": "SELECT \n    path as metric,\n    count(1) filter(where status BETWEEN 400 AND 499) as \"4xx\",\n    count(1) filter(where status BETWEEN 500 AND 599) as \"5xx\",\n    count(1) filter(where status BETWEEN 200 AND 299) as \"2xx\",\n    count(1) filter(where status NOT BETWEEN 400 AND 599 AND status NOT BETWEEN 200 AND 299) as other\nFROM \n    requests LEFT JOIN responses ON responses.reqid = requests.id\nWHERE \n    runid = $runid AND\n    path IN (${endpoint:sqlstring})\nGROUP BY path",
+          "queryText": "SELECT \n    path as metric,\n    NULLIF(count(1) filter(where status BETWEEN 400 AND 499), 0) as \"4xx\",\n    NULLIF(count(1) filter(where status BETWEEN 500 AND 599), 0) as \"5xx\",\n    NULLIF(count(1) filter(where status BETWEEN 200 AND 299), 0) as \"2xx\",\n    NULLIF(count(1) filter(where status NOT BETWEEN 400 AND 599 AND status NOT BETWEEN 200 AND 299), 0) as other\nFROM \n    requests LEFT JOIN responses ON responses.reqid = requests.id\nWHERE \n    runid = $runid AND\n    path IN (${endpoint:sqlstring})\nGROUP BY path",
           "queryType": "table",
-          "rawQueryText": "SELECT \n    path as metric,\n    count(1) filter(where status BETWEEN 400 AND 499) as \"4xx\",\n    count(1) filter(where status BETWEEN 500 AND 599) as \"5xx\",\n    count(1) filter(where status BETWEEN 200 AND 299) as \"2xx\",\n    count(1) filter(where status NOT BETWEEN 400 AND 599 AND status NOT BETWEEN 200 AND 299) as other\nFROM \n    requests LEFT JOIN responses ON responses.reqid = requests.id\nWHERE \n    runid = $runid AND\n    path IN (${endpoint:sqlstring})\nGROUP BY path",
+          "rawQueryText": "SELECT \n    path as metric,\n    NULLIF(count(1) filter(where status BETWEEN 400 AND 499), 0) as \"4xx\",\n    NULLIF(count(1) filter(where status BETWEEN 500 AND 599), 0) as \"5xx\",\n    NULLIF(count(1) filter(where status BETWEEN 200 AND 299), 0) as \"2xx\",\n    NULLIF(count(1) filter(where status NOT BETWEEN 400 AND 599 AND status NOT BETWEEN 200 AND 299), 0) as other\nFROM \n    requests LEFT JOIN responses ON responses.reqid = requests.id\nWHERE \n    runid = $runid AND\n    path IN (${endpoint:sqlstring})\nGROUP BY path",
           "refId": "A",
           "timeColumns": [
             "time",
@@ -349,6 +501,7 @@
           "color": {
             "mode": "palette-classic"
           },
+          "unit": "percent",
           "custom": {
             "axisBorderShow": false,
             "axisCenteredZero": false,
@@ -435,7 +588,7 @@
         "h": 13,
         "w": 24,
         "x": 0,
-        "y": 10
+        "y": 13
       },
       "id": 7,
       "options": {
@@ -531,7 +684,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 34
+        "y": 37
       },
       "id": 9,
       "options": {
@@ -650,7 +803,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 34
+        "y": 37
       },
       "id": 10,
       "options": {
@@ -684,255 +837,6 @@
       ],
       "title": "Corpus, Objectives & Requests Completed",
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "frser-sqlite-datasource",
-        "uid": "P59B5E0575BD8E253"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 42
-      },
-      "id": 11,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xField": "Sequence length",
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "pluginVersion": "10.4.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "frser-sqlite-datasource",
-            "uid": "P59B5E0575BD8E253"
-          },
-          "queryText": "SELECT\n    CAST(seq_size AS TEXT) as \"Sequence length\",\n    COUNT(*) as \"Sequences\"\nFROM (\n    SELECT inputid, COUNT(*) as seq_size\n    FROM requests\n    WHERE runid = \"$runid\"\n    GROUP BY inputid\n)\nGROUP BY seq_size\nORDER BY seq_size",
-          "rawQueryText": "SELECT\n    CAST(seq_size AS TEXT) as \"Sequence length\",\n    COUNT(*) as \"Sequences\"\nFROM (\n    SELECT inputid, COUNT(*) as seq_size\n    FROM requests\n    WHERE runid = \"$runid\"\n    GROUP BY inputid\n)\nGROUP BY seq_size\nORDER BY seq_size",
-          "queryType": "table",
-          "refId": "A",
-          "timeColumns": [
-            "time",
-            "ts"
-          ]
-        }
-      ],
-      "title": "Sequence size distribution",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "frser-sqlite-datasource",
-        "uid": "P59B5E0575BD8E253"
-      },
-      "description": "Cumulative reasons why input sequences either completed or stopped early.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "drawStyle": "line",
-            "fillOpacity": 15,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 52
-      },
-      "id": 12,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.4.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "frser-sqlite-datasource",
-            "uid": "P59B5E0575BD8E253"
-          },
-          "queryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) as time, sequences_completed_total as \"Completed\", sequences_missing_backreference_total as \"Missing backreference\", sequences_crash_or_validation_total as \"Crash or validation\", sequences_transport_error_total as \"Transport error\", sequences_request_build_error_total as \"Request build error\" FROM stats WHERE runid = \"$runid\" ORDER BY timestamp",
-          "queryType": "table",
-          "rawQueryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) as time, sequences_completed_total as \"Completed\", sequences_missing_backreference_total as \"Missing backreference\", sequences_crash_or_validation_total as \"Crash or validation\", sequences_transport_error_total as \"Transport error\", sequences_request_build_error_total as \"Request build error\" FROM stats WHERE runid = \"$runid\" ORDER BY timestamp",
-          "refId": "A",
-          "timeColumns": [
-            "time",
-            "ts"
-          ]
-        }
-      ],
-      "title": "Sequence outcomes",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "frser-sqlite-datasource",
-        "uid": "P59B5E0575BD8E253"
-      },
-      "description": "Latest cumulative wall-clock time spent in major SequenceExecutor phases.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "µs"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 60
-      },
-      "id": 13,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "orientation": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xField": "Phase",
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "pluginVersion": "10.4.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "frser-sqlite-datasource",
-            "uid": "P59B5E0575BD8E253"
-          },
-          "queryText": "WITH latest AS (SELECT * FROM stats WHERE runid = \"$runid\" ORDER BY timestamp DESC LIMIT 1) SELECT 'Resolve backreference' AS \"Phase\", resolve_backreference_us_total AS \"Total us\" FROM latest UNION ALL SELECT 'Build request', build_request_us_total FROM latest UNION ALL SELECT 'Report request', report_request_us_total FROM latest UNION ALL SELECT 'HTTP execute', http_execute_us_total FROM latest UNION ALL SELECT 'Report response', report_response_us_total FROM latest UNION ALL SELECT 'Process response', process_response_us_total FROM latest UNION ALL SELECT 'Endpoint cover', endpoint_cover_us_total FROM latest UNION ALL SELECT 'Code coverage phase', code_coverage_phase_us_total FROM latest UNION ALL SELECT 'Endpoint coverage phase', endpoint_coverage_phase_us_total FROM latest UNION ALL SELECT 'Post-exec reporting', post_exec_reporting_us_total FROM latest",
-          "queryType": "table",
-          "rawQueryText": "WITH latest AS (SELECT * FROM stats WHERE runid = \"$runid\" ORDER BY timestamp DESC LIMIT 1) SELECT 'Resolve backreference' AS \"Phase\", resolve_backreference_us_total AS \"Total us\" FROM latest UNION ALL SELECT 'Build request', build_request_us_total FROM latest UNION ALL SELECT 'Report request', report_request_us_total FROM latest UNION ALL SELECT 'HTTP execute', http_execute_us_total FROM latest UNION ALL SELECT 'Report response', report_response_us_total FROM latest UNION ALL SELECT 'Process response', process_response_us_total FROM latest UNION ALL SELECT 'Endpoint cover', endpoint_cover_us_total FROM latest UNION ALL SELECT 'Code coverage phase', code_coverage_phase_us_total FROM latest UNION ALL SELECT 'Endpoint coverage phase', endpoint_coverage_phase_us_total FROM latest UNION ALL SELECT 'Post-exec reporting', post_exec_reporting_us_total FROM latest",
-          "refId": "A",
-          "timeColumns": [
-            "time",
-            "ts"
-          ]
-        }
-      ],
-      "title": "Executor phase time totals",
-      "type": "barchart"
     },
     {
       "datasource": {
@@ -987,7 +891,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "blue",
-                  "mode": "shades"
+                  "mode": "fixed"
                 }
               }
             ]
@@ -1002,7 +906,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "green",
-                  "mode": "shades"
+                  "mode": "fixed"
                 }
               }
             ]
@@ -1017,7 +921,7 @@
                 "id": "color",
                 "value": {
                   "fixedColor": "red",
-                  "mode": "shades"
+                  "mode": "fixed"
                 }
               }
             ]
@@ -1028,7 +932,7 @@
         "h": 11,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 34
       },
       "id": 8,
       "interval": "1ms",
@@ -1109,20 +1013,48 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "text": "1",
-          "value": "1"
-        },
         "datasource": {
           "type": "frser-sqlite-datasource",
           "uid": "P59B5E0575BD8E253"
         },
-        "definition": "SELECT id FROM runs",
+        "definition": "SELECT id FROM runs ORDER BY id DESC",
         "includeAll": false,
         "label": "Run",
         "name": "runid",
         "options": [],
-        "query": "SELECT id FROM runs",
+        "query": "SELECT id FROM runs ORDER BY id DESC",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT CAST(MIN(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM coverage WHERE runid = $runid",
+        "hide": 2,
+        "includeAll": false,
+        "label": "Min Time",
+        "name": "min_time",
+        "options": [],
+        "query": "SELECT CAST(MIN(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM coverage WHERE runid = $runid",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT CAST(MAX(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM coverage WHERE runid = $runid",
+        "hide": 2,
+        "includeAll": false,
+        "label": "Max Time",
+        "name": "max_time",
+        "options": [],
+        "query": "SELECT CAST(MAX(strftime('%s', timestamp)) AS INTEGER) * 1000 FROM coverage WHERE runid = $runid",
         "refresh": 1,
         "regex": "",
         "type": "query"
@@ -1141,12 +1073,28 @@
           "uid": "P59B5E0575BD8E253"
         },
         "definition": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
-        "includeAll": false,
+        "includeAll": true,
         "label": "Endpoint",
         "multi": true,
         "name": "endpoint",
         "options": [],
         "query": "SELECT DISTINCT path FROM requests WHERE runid = $runid ORDER BY path ASC",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "P59B5E0575BD8E253"
+        },
+        "definition": "SELECT wuppiefuzz_version FROM run_configuration WHERE runid = $runid LIMIT 1",
+        "hide": 2,
+        "includeAll": false,
+        "label": "WuppieFuzz Version",
+        "name": "wuppiefuzz_version",
+        "options": [],
+        "query": "SELECT wuppiefuzz_version FROM run_configuration WHERE runid = $runid LIMIT 1",
         "refresh": 1,
         "regex": "",
         "type": "query"
