@@ -611,9 +611,9 @@
             "type": "frser-sqlite-datasource",
             "uid": "P59B5E0575BD8E253"
           },
-          "queryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) as time,\n  100.0 * endpoint_coverage / endpoint_coverage_total AS \"Endpoint Coverage (%)\",\n  100.0 * line_coverage / line_coverage_total AS \"Line Coverage (%)\"\nFROM\n  coverage\nWHERE\n  runid = \"$runid\"\n",
+          "queryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  CASE\n    WHEN endpoint_coverage_total > 0 THEN 100.0 * endpoint_coverage / endpoint_coverage_total\n    ELSE NULL\n  END AS \"Endpoint Coverage (%)\",\n  CASE\n    WHEN line_coverage_total > 0 THEN 100.0 * line_coverage / line_coverage_total\n    ELSE NULL\n  END AS \"Line Coverage (%)\"\nFROM\n  coverage\nWHERE\n  runid = \"$runid\"\nORDER BY timestamp",
           "queryType": "table",
-          "rawQueryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) as time,\n  100.0 * endpoint_coverage / endpoint_coverage_total AS \"Endpoint Coverage (%)\",\n  100.0 * line_coverage / line_coverage_total AS \"Line Coverage (%)\"\nFROM\n  coverage\nWHERE\n  runid = \"$runid\"\n",
+          "rawQueryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  CASE\n    WHEN endpoint_coverage_total > 0 THEN 100.0 * endpoint_coverage / endpoint_coverage_total\n    ELSE NULL\n  END AS \"Endpoint Coverage (%)\",\n  CASE\n    WHEN line_coverage_total > 0 THEN 100.0 * line_coverage / line_coverage_total\n    ELSE NULL\n  END AS \"Line Coverage (%)\"\nFROM\n  coverage\nWHERE\n  runid = \"$runid\"\nORDER BY timestamp",
           "refId": "A",
           "timeColumns": [
             "time",
@@ -684,7 +684,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 37
+        "y": 26
       },
       "id": 9,
       "options": {
@@ -803,7 +803,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 37
+        "y": 26
       },
       "id": 10,
       "options": {
@@ -932,7 +932,7 @@
         "h": 11,
         "w": 24,
         "x": 0,
-        "y": 34
+        "y": 58
       },
       "id": 8,
       "interval": "1ms",
@@ -1004,6 +1004,514 @@
         }
       ],
       "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "unit": "none",
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 34
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  otel_unique_span_keys_total AS \"Span keys\",\n  otel_unique_edge_keys_total AS \"Edge keys\",\n  otel_unique_span_keys_total + otel_unique_edge_keys_total AS \"Total semantic keys\"\nFROM stats\nWHERE runid = \"$runid\"\nORDER BY timestamp",
+          "rawQueryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  otel_unique_span_keys_total AS \"Span keys\",\n  otel_unique_edge_keys_total AS \"Edge keys\",\n  otel_unique_span_keys_total + otel_unique_edge_keys_total AS \"Total semantic keys\"\nFROM stats\nWHERE runid = \"$runid\"\nORDER BY timestamp",
+          "queryType": "table",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "OTEL Semantic Coverage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "unit": "none",
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 34
+      },
+      "id": 15,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  otel_sequences_promoted_total AS \"Promoted sequences\",\n  otel_promoted_inputs_added_total AS \"Promoted inputs added\"\nFROM stats\nWHERE runid = \"$runid\"\nORDER BY timestamp",
+          "rawQueryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  otel_sequences_promoted_total AS \"Promoted sequences\",\n  otel_promoted_inputs_added_total AS \"Promoted inputs added\"\nFROM stats\nWHERE runid = \"$runid\"\nORDER BY timestamp",
+          "queryType": "table",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "OTEL Promotion",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "unit": "none",
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Request roots seen (%)"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 42
+      },
+      "id": 16,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  CASE\n    WHEN otel_sequence_roots_expected_total > 0\n    THEN 100.0 * otel_sequence_roots_seen_total / otel_sequence_roots_expected_total\n    ELSE NULL\n  END AS \"Request roots seen (%)\",\n  otel_request_roots_unknown_trace_total AS \"Unknown request roots\",\n  otel_sequence_finish_unknown_trace_total AS \"Unknown sequence finishes\",\n  otel_spans_late_after_eviction_total AS \"Late spans after eviction\"\nFROM stats\nWHERE runid = \"$runid\"\nORDER BY timestamp",
+          "rawQueryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  CASE\n    WHEN otel_sequence_roots_expected_total > 0\n    THEN 100.0 * otel_sequence_roots_seen_total / otel_sequence_roots_expected_total\n    ELSE NULL\n  END AS \"Request roots seen (%)\",\n  otel_request_roots_unknown_trace_total AS \"Unknown request roots\",\n  otel_sequence_finish_unknown_trace_total AS \"Unknown sequence finishes\",\n  otel_spans_late_after_eviction_total AS \"Late spans after eviction\"\nFROM stats\nWHERE runid = \"$runid\"\nORDER BY timestamp",
+          "queryType": "table",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "OTEL Attribution Health",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "unit": "none",
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 50
+      },
+      "id": 17,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  otel_receiver_requests_ok_total AS \"Accepted OTLP requests\",\n  otel_receiver_requests_rejected_total AS \"Rejected OTLP requests\",\n  otel_receiver_requests_decode_error_total AS \"Decode errors\",\n  otel_spans_received_total AS \"Spans received\"\nFROM stats\nWHERE runid = \"$runid\"\nORDER BY timestamp",
+          "rawQueryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  otel_receiver_requests_ok_total AS \"Accepted OTLP requests\",\n  otel_receiver_requests_rejected_total AS \"Rejected OTLP requests\",\n  otel_receiver_requests_decode_error_total AS \"Decode errors\",\n  otel_spans_received_total AS \"Spans received\"\nFROM stats\nWHERE runid = \"$runid\"\nORDER BY timestamp",
+          "queryType": "table",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "OTEL Receiver Health",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "P59B5E0575BD8E253"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "unit": "none",
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 50
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "P59B5E0575BD8E253"
+          },
+          "queryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  otel_engine_queue_depth AS \"Queue depth\",\n  otel_engine_queue_high_watermark AS \"High watermark\",\n  otel_engine_backpressure_total AS \"Backpressure events\"\nFROM stats\nWHERE runid = \"$runid\"\nORDER BY timestamp",
+          "rawQueryText": "SELECT\n  strftime('%Y-%m-%dT%H:%M:%SZ', timestamp) AS time,\n  otel_engine_queue_depth AS \"Queue depth\",\n  otel_engine_queue_high_watermark AS \"High watermark\",\n  otel_engine_backpressure_total AS \"Backpressure events\"\nFROM stats\nWHERE runid = \"$runid\"\nORDER BY timestamp",
+          "queryType": "table",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "OTEL Queue Health",
+      "type": "timeseries"
     }
   ],
   "preload": false,
